@@ -4,7 +4,7 @@ class RoomsController < ApplicationController
   end
 
   def show
-    name = params[:name]
+    @room_name = params[:name]
   end
 
   def add
@@ -13,12 +13,22 @@ class RoomsController < ApplicationController
   end
 
   def add_category
-    name = params[:name]
-    RoomService.add_room_category name
+    room, name = params[:room], params[:name]
+    RoomService.add_room_category room, name
   end
 
   def get_categories
     name = params[:name]
-    render :json => RoomService.get_room_categories(name)
+    render :json => { :categories => RoomService.get_room_categories(name) }
+  end
+
+  def incr_category
+    room, name = params[:room], params[:name]
+    RoomService.incr_room_category room, name
+  end
+
+  def get_categories_with_counts
+    name = params[:name]
+    render :json => { :categories => RoomService.get_room_categories_with_counts(name) }
   end
 end
