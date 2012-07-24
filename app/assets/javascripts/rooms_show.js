@@ -1,6 +1,7 @@
 var process_json = function(data) {
   var data = data.categories;
   for (var key in data) {
+    key = key.replace(" ", "_");
     var category = $('#' + key);
     if (category.length === 0) {
       category = create_meter(key);
@@ -26,7 +27,7 @@ var refresh = function() {
       name: room_name
     }, process_json
   );
-}
+};
 
 $(document).ready(function() {
   refresh();
