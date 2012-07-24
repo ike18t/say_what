@@ -15,7 +15,7 @@ var process_json = function(data) {
 var create_meter = function(key) {
   var container = $('<div class=\'category_container\'></div>');
   category = $('<div id=\'' + key + '\'></div>');
-  container.append($('<div class=\'progress_label\'>' + key + '</div>')).append(category);
+  container.append($('<span class=\'meter_label\'>' + key + '</span>')).append(category);
   $('#categories_container').append(container);
   category.progressbar({});
   return category;

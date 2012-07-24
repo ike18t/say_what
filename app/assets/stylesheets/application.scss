@@ -15,6 +15,7 @@ body #body_container {
   width: 800px;
   margin: 0px auto;
   border: solid 1px #eee;
+  padding: 5px;
 }
 
 body #header_container {
@@ -33,4 +34,19 @@ body #header_container {
 
 body #content_container {
 
+}
+
+body #content_container #categories_container {
+  width: 85%;
+  margin: 0px auto;
+}
+
+.category_container {
+  margin: 10px;
+}
+
+.category_container .meter_label {
+  display: block;
+  font: bold 20px Arial;
+  margin-left: 10px;
 }
