@@ -7,6 +7,10 @@ class RoomServiceTest < ActiveSupport::TestCase
     REDIS.flushdb
   end
 
+  teardown do
+    REDIS.flushdb
+  end
+
   test "add_room adds to the redis room list" do
     assert_equal(0, REDIS.llen(ROOM_KEY))
     RoomService.add_room("test")
