@@ -4,6 +4,7 @@ class RoomsController < ApplicationController
   end
 
   def show
+    render :text => 'Room does not exist' unless RoomService.room_exists?(params[:name])
     @room_name = params[:name]
   end
 
