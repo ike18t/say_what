@@ -22,7 +22,7 @@ var create_meter = function(key) {
 };
 
 var refresh = function() {
-  $.getJSON('get_categories_with_counts',
+  $.getJSON('/rooms/get_categories_with_counts',
     {
       name: room_name
     }, process_json

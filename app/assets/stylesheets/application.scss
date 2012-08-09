@@ -12,7 +12,8 @@
  * require_tree .
  */
 body #body_container {
-  width: 800px;
+  max-width: 800px;
+  width: 90%;
   margin: 0px auto;
   border: solid 1px #eee;
   padding: 5px;
