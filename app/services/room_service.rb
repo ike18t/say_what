@@ -6,6 +6,10 @@ class RoomService
     REDIS.rpush ROOM_KEY, name
   end
 
+  def self.room_exists? room_name
+    get_room_list.include? room_name
+  end
+
   def self.get_room_list
     key_count = REDIS.llen(ROOM_KEY)
     REDIS.lrange ROOM_KEY, 0, key_count
@@ -21,16 +25,23 @@ class RoomService
   end
 
   def self.incr_room_category room, category
-    REDIS.setex "#{room}::#{category}::#{rand 1000000000}", 5, 0
+    keys = get_keys_for_room_category(room, category) << "#{room}::#{category}::#{rand 1000000000}"
+    keys.each { |key| REDIS.setex key, 5, 0 }
   end
 
   def self.get_room_categories_with_counts room
     categories = get_room_categories room
     return_values = Hash.new
     categories.each do |category|
-      return_values[category] = (REDIS.keys("#{room}::#{category}::*")).length
+      return_values[category] = get_keys_for_room_category(room, category).length
     end
     return_values
+  end
+
+  private
+
+  def self.get_keys_for_room_category room, category
+    REDIS.keys "#{room}::#{category}::*"
   end
 
 end

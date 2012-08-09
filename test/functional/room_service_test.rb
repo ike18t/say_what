@@ -23,6 +23,15 @@ class RoomServiceTest < ActiveSupport::TestCase
     assert(room_list.index("bar") != nil)
   end
 
+  test "room_exists returns false if no rooms" do
+    assert_equal(false, RoomService.room_exists?("bah"))
+  end
+
+  test "room_exists returns true if room does exists" do
+    RoomService.add_room "bah"
+    assert_equal(true, RoomService.room_exists?("bah"))
+  end
+
   test "get_room_list returns empty array if no rooms" do
     assert_equal([], RoomService.get_room_list)
   end
@@ -57,10 +66,15 @@ class RoomServiceTest < ActiveSupport::TestCase
     assert_equal 1, keys.length
   end
 
-  test "incr_room_category adds an entry to redis that expires in 5 seconds" do
+  test "incr_room_category adds an entry as well as updates expirations for previous entries which then expire after 5 seconds" do
     RoomService.incr_room_category "foo", "bar"
     keys = REDIS.keys "foo::bar::*"
     assert_equal 1, keys.length
+    sleep 4
+    RoomService.incr_room_category "foo", "bar"
+    sleep 3
+    keys = REDIS.keys "foo::bar::*"
+    assert_equal 2, keys.length
     sleep 6
     keys = REDIS.keys "foo::bar::*"
     assert_equal 0, keys.length
