@@ -51,3 +51,16 @@ body #content_container #categories_container {
   font: bold 20px Arial;
   margin-left: 10px;
 }
+
+.button_container {
+  background-color: cornflowerBlue;
+  padding: 20px;
+  margin: 20px;
+  font: bold 20px arial;
+  text-align: center;
+  border: solid 2px black;
+  color: white;
+  max-width: 400px;
+  border-radius: 10px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}

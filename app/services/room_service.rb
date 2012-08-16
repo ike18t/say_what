@@ -12,6 +12,7 @@ class RoomService
 
   def self.get_room_list
     key_count = REDIS.llen(ROOM_KEY)
+    Rails.logger.info "bah" + key_count.to_s
     REDIS.lrange ROOM_KEY, 0, key_count
   end
 

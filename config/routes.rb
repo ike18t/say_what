@@ -51,7 +51,7 @@ SayWhat::Application.routes.draw do
   root :to => 'rooms#index'
 
   match 'show/:name' => 'rooms#show'
-  match 'remote' => 'rooms#show'
+  match 'remote/:name' => 'rooms#remote'
 
   # See how all your routes lay out with "rake routes"
 

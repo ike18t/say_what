@@ -1,4 +1,5 @@
 <%- @rooms.each do |room| %>
-  <%= link_to room, :action => "show", :name => room %>
-  <br/>
+  <div>
+    <%= room %> <%= link_to "show", :action => "show", :name => room %> <%= link_to "remote", :action => "remote", :name => room %>
+  </div>
 <%- end %>

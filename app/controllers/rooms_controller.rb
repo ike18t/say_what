@@ -8,6 +8,11 @@ class RoomsController < ApplicationController
     @room_name = params[:name]
   end
 
+  def remote
+    render :text => 'Room does not exist' unless RoomService.room_exists?(params[:name])
+    @room_name = params[:name]
+  end
+
   def add
     name = params[:name]
     RoomService.add_room name
@@ -26,6 +31,7 @@ class RoomsController < ApplicationController
   def incr_category
     room, name = params[:room], params[:name]
     RoomService.incr_room_category room, name
+    render :nothing => true
   end
 
   def get_categories_with_counts
