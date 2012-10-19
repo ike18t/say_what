@@ -21,7 +21,7 @@ class RoomService
   end
 
   def self.remove_room_category room, category
-
+    REDIS.lrem room, 0, category
   end
 
   def self.get_room_categories room

@@ -12,41 +12,51 @@ class RoomServiceTest < ActiveSupport::TestCase
   end
 
   test "add_room adds to the redis room list" do
-    assert_equal(0, REDIS.llen(ROOM_KEY))
-    RoomService.add_room("test")
-    assert_equal(1, REDIS.llen(ROOM_KEY))
-    assert_equal("test", REDIS.lpop(ROOM_KEY))
+    assert_equal 0, REDIS.llen(ROOM_KEY)
+    RoomService.add_room "test"
+    assert_equal 1, REDIS.llen(ROOM_KEY)
+    assert_equal "test", REDIS.lpop(ROOM_KEY)
   end
 
   test "get_room_list returns a list of rooms" do
-    RoomService.add_room("foo")
-    RoomService.add_room("bar")
+    RoomService.add_room "foo"
+    RoomService.add_room "bar"
     room_list = RoomService.get_room_list
-    assert_equal(2, room_list.length)
-    assert(room_list.index("foo") != nil)
-    assert(room_list.index("bar") != nil)
+    assert_equal 2, room_list.length
+    assert_not_nil room_list.index("foo")
+    assert_not_nil room_list.index("bar")
   end
 
   test "room_exists returns false if no rooms" do
-    assert_equal(false, RoomService.room_exists?("bah"))
+    assert_equal false,  RoomService.room_exists?("bah")
   end
 
   test "room_exists returns true if room does exists" do
     RoomService.add_room "bah"
-    assert_equal(true, RoomService.room_exists?("bah"))
+    assert RoomService.room_exists?("bah")
   end
 
   test "get_room_list returns empty array if no rooms" do
-    assert_equal([], RoomService.get_room_list)
+    assert_equal [], RoomService.get_room_list
   end
 
   test "add_room_category adds the category to the rooms list" do
-    assert_equal(0, REDIS.llen("foo"))
-    RoomService.add_room("foo")
-    RoomService.add_room_category("foo", "bar")
+    assert_equal 0, REDIS.llen("foo")
+    RoomService.add_room "foo"
+    RoomService.add_room_category "foo", "bar"
 
-    assert_equal(1, REDIS.llen("foo"))
-    assert_equal("bar", REDIS.lpop("foo"))
+    assert_equal 1, REDIS.llen("foo")
+    assert_equal "bar", REDIS.lpop("foo")
+  end
+
+  test "remove_room_category removes the category from the room" do
+    RoomService.add_room "foo"
+    RoomService.add_room_category "foo", "bar"
+
+    assert_equal 1, REDIS.llen("foo")
+
+    RoomService.remove_room_category "foo", "bar"
+    assert_equal 0, REDIS.llen("foo")
   end
 
   test "get_room_categories returns all room categories" do
@@ -55,8 +65,8 @@ class RoomServiceTest < ActiveSupport::TestCase
     RoomService.add_room_category "foo", "bah"
     categories = RoomService.get_room_categories "foo"
     assert_equal 2, categories.length
-    assert(categories.index("bar") != nil)
-    assert(categories.index("bah") != nil)
+    assert_not_nil categories.index("bar")
+    assert_not_nil categories.index("bah")
   end
 
   test "get_room_categories returns empty array if no categories" do
