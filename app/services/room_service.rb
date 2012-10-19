@@ -20,6 +20,10 @@ class RoomService
     REDIS.rpush room, category
   end
 
+  def self.remove_room_category room, category
+
+  end
+
   def self.get_room_categories room
     key_count = REDIS.llen(room)
     REDIS.lrange room, 0, key_count

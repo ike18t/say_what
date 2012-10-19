@@ -33,10 +33,6 @@ body #header_container {
   float: right;
 }
 
-body #content_container {
-
-}
-
 body #content_container #categories_container {
   width: 85%;
   margin: 0px auto;
@@ -53,6 +49,7 @@ body #content_container #categories_container {
 }
 
 .button_container {
+  cursor: pointer;
   background-color: cornflowerBlue;
   padding: 20px;
   margin: 20px;

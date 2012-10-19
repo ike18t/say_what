@@ -1,5 +1,5 @@
 <%= javascript_include_tag 'rooms_remote' %>
 <script>
-  var room_name = '<%= @room_name %>';
+  remote('<%= @room_name %>').initialize();
 </script>
 <div id="categories_container"></div>

@@ -1,40 +1,45 @@
-var process_json = function(data) {
-  var data = data.categories;
-  for (var key in data) {
-    category = data[key];
-    key = category.replace(" ", "_");
-    var button = $('#' + key);
-    if (button.length === 0) {
-      create_button(key, category);
-    }
-  }
-};
+var remote = function(roomName) {
+  var remote = remote || {}
 
-var create_button = function(key, name) {
-  var container = $('<div id=\'' + key + '\' class=\'button_container\'></div>');
-  container.append($('<span class=\'button_label\'>' + name + '</span>'));
-  $('#categories_container').append(container);
-  container.click(function() { vote(key); });
-};
+  var updateCategories = function(data) {
+    $.each(data.categories, function(index, category) {
+      var key = category.replace(" ", "_");
+      if (!document.getElementById(key)) {
+        createButton(key, category);
+      }
+    });
+  };
 
-var vote = function(category) {
-  $.ajax('/rooms/incr_category/',
-    {
-      type: 'PUT',
-      data: { room: room_name, name: category }
-    }
-  );
-};
+  createButton = function(key, name) {
+    var container = $('<div id=\'' + key + '\' class=\'button_container\'></div>');
+    container.append($('<span class=\'button_label\'>' + name + '</span>'));
+    container.click(remote.vote);
+    $('#categories_container').append(container);
+  };
 
-var refresh = function() {
-  $.getJSON('/rooms/get_categories',
-    {
-      name: room_name
-    }, process_json
-  );
-};
+  remote.vote = function() {
+    $.ajax('/rooms/incr_category/',
+      {
+        type: 'PUT',
+        data: { room: roomName, name: this.id }
+      }
+    );
+  };
 
-$(document).ready(function() {
-  refresh();
-  setInterval(refresh, 5000);
-});
+  pullCategories = function() {
+    $.getJSON('/rooms/get_categories',
+      {
+        name: roomName
+      }, updateCategories
+    );
+  };
+
+  remote.initialize = function() {
+    $(document).ready(function() {
+      pullCategories();
+      setInterval(pullCategories, 5000);
+    });
+  };
+
+  return remote;
+};

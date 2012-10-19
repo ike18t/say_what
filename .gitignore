@@ -18,4 +18,6 @@ git config --global core.excludesfile ~/.gitignore_global
 .DS_Store
 server
 dump.rdb
-
+/vendor/bundle
+/bin
+/Gemfile.lock
