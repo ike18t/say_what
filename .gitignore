@@ -21,3 +21,5 @@ dump.rdb
 /vendor/bundle
 /bin
 /Gemfile.lock
+/tags
+/.sass-cache
