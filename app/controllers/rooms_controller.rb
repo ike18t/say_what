@@ -16,6 +16,7 @@ class RoomsController < ApplicationController
   def add
     name = params[:name]
     RoomService.add_room name
+    redirect_to :action => :show, :name => name
   end
 
   def add_category
