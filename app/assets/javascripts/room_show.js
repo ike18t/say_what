@@ -1,15 +1,13 @@
 var room = function(roomName) {
-  var room = room || {}
-
   var updateCounts = function(data) {
     $.each(data.categories, function(category, value) {
-      var key = category.replace(" ", "_");
-      var category = $('#' + key);
+      var key = category.replace(' ', '_');
+      var category = container.find('#' + key);
       if (category.length === 0) {
         category = createMeter(key);
       }
       value = (value > 5 ? 5 : value) * 20;
-      $(category).progressbar('option', 'value', value);
+      category.progressbar('option', 'value', value);
     });
   };
 
@@ -17,7 +15,7 @@ var room = function(roomName) {
     var container = $('<div class=\'category_container\'></div>');
     category = $('<div id=\'' + key + '\'></div>');
     container.append($('<span class=\'meter_label\'>' + key + '</span>')).append(category);
-    $('#categories_container').append(container);
+    this.container.append(container);
     category.progressbar({});
     return category;
   };
@@ -30,12 +28,20 @@ var room = function(roomName) {
     );
   };
 
-  room.initialize = function() {
-    $(document).ready(function() {
-      pullCounts();
-      setInterval(pullCounts, 1000);
-    });
+  var intervalHandle = null;
+  this.container = null;
+
+  this.initialize = function(container) {
+    this.container = container;
+    pullCounts();
+    intervalHandle = setInterval(pullCounts, 1000);
   };
 
-  return room;
+  this.stop = function() {
+    if (intervalHandle != null) {
+      clearInterval(intervalHandle);
+    }
+  };
+
+  return this;
 };

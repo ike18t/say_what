@@ -1,7 +1,9 @@
 <%= javascript_include_tag 'jquery-ui-1.8.21.custom.min' %>
-<%= javascript_include_tag 'rooms_show' %>
 <%= stylesheet_link_tag 'jquery-ui-1.8.21.custom' %>
-<script>
-  room('<%= @room_name %>').initialize();
-</script>
+<%= javascript_include_tag 'room_show' %>
 <div id="categories_container"></div>
+<script>
+  $(document).ready(function(){
+    room('<%= @room_name %>').initialize($('#categories_container'));
+  });
+</script>
