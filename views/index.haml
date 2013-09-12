@@ -1,0 +1,11 @@
+#create_room_modal
+  %form{ :action => 'add', :method => 'post' }
+    %label{ :for => 'name' } Room Name:
+    %input#name{ :name => 'name' }
+    %input{ :type => 'submit' }
+
+  - @rooms.each do |room|
+    .room
+      %span= room
+      %a{:href => "/room/#{room}/view" } show
+      %a{:href => "/room/#{room}" } remote

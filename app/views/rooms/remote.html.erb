@@ -1,7 +1,0 @@
-<%= javascript_include_tag 'room_remote' %>
-<div id="categories_container"></div>
-<script>
-  $(document).ready(function(){
-    remote('<%= @room_name %>').initialize($('#categories_container'));
-  });
-</script>

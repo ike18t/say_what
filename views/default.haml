@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    %title SayWhat?
+    =js :application
+    =css :application
+    %meta{ :name => 'viewport', :content => 'width=device-width, initial-scale=1.0'}
+  %body
+    #message
+    #body_container
+      #header_container
+        %a{ :href => '/' }
+          #logo_container
+            &nbsp
+      #content_container
+        =yield
