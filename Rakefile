@@ -6,7 +6,7 @@ RSpec::Core::RakeTask.new(:spec)
 task :default => :spec
 
 task :start do
-  require_relative './lib/say_what'
+  require_relative './app/say_what'
   SayWhatServer.run!
 end
 
