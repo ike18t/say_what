@@ -51,7 +51,8 @@ class SayWhatServer < Sinatra::Base
 
   get '/room/:name/get_counts' do
     name = params[:name]
-    { :categories => RoomService.get_room_categories_with_counts(name) }.to_json
+    #so there is no confusion where the data is coming from
+    #{ :categories => RoomService.get_room_categories_with_counts(name) }.to_json
   end
 
 end

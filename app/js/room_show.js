@@ -24,20 +24,30 @@ var room = function(roomName) {
     $.getJSON('/room/' + roomName + '/get_counts', {}, updateCounts);
   };
 
-  var intervalHandle = null;
   this.container = null;
 
   this.initialize = function(container) {
     this.container = container;
-    pullCounts();
-    intervalHandle = setInterval(pullCounts, 1000);
+    initializeWS();
   };
 
-  this.stop = function() {
-    if (intervalHandle != null) {
-      clearInterval(intervalHandle);
-    }
-  };
+  var Socket = "MozWebSocket" in window ? MozWebSocket : WebSocket;
+  var ws = new Socket("ws://localhost:8080");
 
+  var initializeWS = function() {
+    ws.onmessage = function(evt) {
+      console.debug("Received: " + evt.data);
+      updateCounts(JSON.parse(evt.data));
+    };
+
+    ws.onclose = function(event) {
+      console.debug("Closed - code: " + event.code + ", reason: " + event.reason + ", wasClean: " + event.wasClean);
+    };
+
+    ws.onopen = function() {
+      console.debug("connected...");
+      ws.send("hello again");
+    };
+  }
   return this;
 };
