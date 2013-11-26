@@ -7,7 +7,10 @@ EventMachine.run do
   EventMachine::WebSocket.start(:host => '0.0.0.0', :port => 8080, :debug => true) do |ws|
     ws.onopen do
       sid = @channel.subscribe { |msg| ws.send msg }
-      @channel.push "#{sid} connected!"
+      require_relative 'services/room_service'
+      require 'json'
+      json_string = { :categories => RoomService.get_room_categories_with_counts('test_room') }.to_json.to_s
+      @channel.push json_string
 
       ws.onmessage do |msg|
         @channel.push "<#{sid}>: #{msg}"
@@ -24,9 +27,13 @@ EventMachine.run do
   Thread.new do
     require_relative 'services/room_service'
     require 'json'
+    prev_json_string = ''
     loop do
       json_string = { :categories => RoomService.get_room_categories_with_counts('test_room') }.to_json.to_s
-      @channel.push json_string
+      if json_string != prev_json_string
+        @channel.push json_string
+      end
+      prev_json_string = json_string
       sleep 1
     end
   end
