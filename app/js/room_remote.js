@@ -33,7 +33,7 @@ var remote = function(roomName) {
   this.initialize = function(container) {
     this.container = container;
     pullCategories();
-    intervalHandle = setInterval(pullCategories, 5000);
+    //intervalHandle = setInterval(pullCategories, 5000);
   };
 
   this.stop = function() {

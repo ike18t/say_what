@@ -9,7 +9,7 @@ EventMachine.run do
       sid = @channel.subscribe { |msg| ws.send msg }
       require_relative 'services/room_service'
       require 'json'
-      json_string = { :categories => RoomService.get_room_categories_with_counts('test_room') }.to_json.to_s
+      json_string = { :categories => RoomService.get_room_categories_with_counts('test') }.to_json.to_s
       @channel.push json_string
 
       ws.onmessage do |msg|
@@ -29,7 +29,7 @@ EventMachine.run do
     require 'json'
     prev_json_string = ''
     loop do
-      json_string = { :categories => RoomService.get_room_categories_with_counts('test_room') }.to_json.to_s
+      json_string = { :categories => RoomService.get_room_categories_with_counts('test') }.to_json.to_s
       if json_string != prev_json_string
         @channel.push json_string
       end

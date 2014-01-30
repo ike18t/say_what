@@ -28,7 +28,7 @@ class SayWhatServer < Sinatra::Base
     haml :remote, :layout => :default
   end
 
-  post '/room/add/:name' do
+  post '/room/add' do
     name = params[:name]
     RoomService.add_room name
     redirect "/room/#{name}/view"
